@@ -2,20 +2,25 @@
 #include <utility>
 #include <math.h>
 #include <string.h>
-#include "gnuplot-iostream.h"
 #include <sstream>
+#include "gnuplot-iostream.h"
+#include "ProjCalculations.h"
 #include "InputHandler.h"
 
 // compile with g++ -std=c++11 *.cpp -o main -lboost_iostreams -lboost_system -lboost_filesystem
 
-const float GRAVITY = 9.80665;
-const float PI = 3.14159;
-const float INITIAL_VELOCITY = 30.0;
+
+bool DEBUG = false;
 
 std::string createLineString(float x1, float y1, float x2, float y2, std::string color);
 std::string createProjectileString(float angleRads, float initialVelocity);
 
-int main() {
+int main(int argc, char** argv) {
+
+    if (argc == 2){
+        if (strncmp(argv[1], "debug", 5) == 0) {DEBUG = true; std::cout << "DEBUG mode enabled.\n\n";}
+    }
+
     std::vector<std::pair<double,double>> data;
     data.emplace_back(-2,-0.8);
     data.emplace_back(-1,-0.4);
@@ -29,9 +34,7 @@ int main() {
 
     InputHandler inputHandler;
     const float TARGET_DISTANCE = inputHandler.getTargetDistance();
-    std::cout << TARGET_DISTANCE;
-
-    const float ANGLE_RADS_NECESSARY = PI/2 - asin(GRAVITY * TARGET_DISTANCE / pow(INITIAL_VELOCITY, 2.0));
+    inputHandler.getWallDimensions(TARGET_DISTANCE);
 
     Gnuplot projectileMotion("tee proj.gp | gnuplot -persist");
     std::string projFormula;

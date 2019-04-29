@@ -12,14 +12,13 @@ struct Wall {
 
 class InputHandler {
 public:
-    int getTargetDistance();
-    Wall getWallDimensions();
+    float getTargetDistance();
+    Wall getWallDimensions(const int TARGET_DISTANCE);
 
 private:
 
     const int MIN_TARGET_DISTANCE = 5;
     const int MAX_TARGET_DISTANCE = 91;
-    const int MIN_WALL_DISTANCE = 1;
 };
 
 
