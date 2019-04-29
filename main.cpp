@@ -12,7 +12,9 @@
 
 bool DEBUG = false;
 
-std::string createLineString(float x1, float y1, float x2, float y2, std::string color);
+std::string createLineString(float x1, float y1, float x2, float y2, std::string color, int lineWeight);
+std::string createWall(Wall wall);
+std::string createTarget(int distance);
 std::string createProjectileString(float angleRads, float initialVelocity);
 
 int main(int argc, char** argv) {
@@ -21,43 +23,45 @@ int main(int argc, char** argv) {
         if (strncmp(argv[1], "debug", 5) == 0) {DEBUG = true; std::cout << "DEBUG mode enabled.\n\n";}
     }
 
-    std::vector<std::pair<double,double>> data;
-    data.emplace_back(-2,-0.8);
-    data.emplace_back(-1,-0.4);
-    data.emplace_back(0,-0);
-    data.emplace_back(1,0.4);
-    data.emplace_back(1,0.8);
-
     float angle = 45.0;
     float angleRads = angle * PI / 180.0;
     float initialVelocity = 20.0;
 
     InputHandler inputHandler;
     const float TARGET_DISTANCE = inputHandler.getTargetDistance();
-    inputHandler.getWallDimensions(TARGET_DISTANCE);
+    Wall userWall;
+    userWall = inputHandler.getWallDimensions(TARGET_DISTANCE);
+    Gnuplot userPlot("tee user.gp | gnuplot -persist");
+    userPlot << createTarget(TARGET_DISTANCE) << createWall(userWall) << createProjectileString(angleForDistance(TARGET_DISTANCE), INITIAL_VELOCITY) << "\n";
 
-    Gnuplot projectileMotion("tee proj.gp | gnuplot -persist");
-    std::string projFormula;
-    std::ostringstream os;
-    os << "tan(" << angleRads << ")*x -("
-          << GRAVITY << "*x**2)/(2*"
-          << initialVelocity << "**2*(cos("
-          << angleRads << "))**2)";
-    projFormula = os.str();
-    //projectileMotion << createLineString(20,0,20,10) << ";plot [0:100][0:20] " << projFormula << " tit 'projectile'\n";
-    projectileMotion << createLineString(20, 0, 20, 10, "red") << ";" << createProjectileString(angleRads, initialVelocity) << "\n";
     return 0;
 }
 
 // Returns a string which commands gnuplot to draw a line between the two points
-std::string createLineString(float x1, float y1, float x2, float y2, std::string color){
+std::string createLineString(float x1, float y1, float x2, float y2, std::string color, int lineWeight){
     std::ostringstream os;
     os << "set arrow from " << x1 << "," << y1
                        << " to " << x2 << "," << y2 << " nohead "
-                       << "lc rgb \"" << color << "\"";
+                       << "lc rgb \"" << color << "\" lw " << lineWeight << ";";
 
     return os.str();
 }
+
+std::string createWall(Wall wall){
+    return createLineString(wall.distance, 0, wall.distance, wall.height, "black", 2);
+}
+
+
+std::string createTarget(int distance){
+    /*
+    os << "set arrow from " << distance-1.5 << "," << 0
+       << " to " << distance+1.5 << "," << 0
+       << " nohead lc rgb \"red\" lw 4;";
+    return os.str();
+     */
+    return createLineString(distance-1.5, 0, distance+1.5, 0, "red", 4);
+}
+
 
 // Returns a string which commands gnuplot to draw a projectile curve
 std::string createProjectileString(float angleRads, float initialVelocity){
