@@ -8,8 +8,9 @@
 
 // compile with g++ -std=c++11 *.cpp -o main -lboost_iostreams -lboost_system -lboost_filesystem
 
-const float GRAVITY = 9.807;
+const float GRAVITY = 9.80665;
 const float PI = 3.14159;
+const float INITIAL_VELOCITY = 30.0;
 
 std::string createLineString(float x1, float y1, float x2, float y2, std::string color);
 std::string createProjectileString(float angleRads, float initialVelocity);
@@ -27,7 +28,10 @@ int main() {
     float initialVelocity = 20.0;
 
     InputHandler inputHandler;
-    std::cout << inputHandler.getTargetDistance();
+    const float TARGET_DISTANCE = inputHandler.getTargetDistance();
+    std::cout << TARGET_DISTANCE;
+
+    const float ANGLE_RADS_NECESSARY = PI/2 - asin(GRAVITY * TARGET_DISTANCE / pow(INITIAL_VELOCITY, 2.0));
 
     Gnuplot projectileMotion("tee proj.gp | gnuplot -persist");
     std::string projFormula;
@@ -55,11 +59,11 @@ std::string createLineString(float x1, float y1, float x2, float y2, std::string
 // Returns a string which commands gnuplot to draw a projectile curve
 std::string createProjectileString(float angleRads, float initialVelocity){
     std::ostringstream os;
-    float distance = pow(initialVelocity, 2.0) * sin(2 * angleRads) / GRAVITY;
-    float height = pow(initialVelocity, 2.0) * pow(sin(angleRads), 2.0) / (2 * GRAVITY);
+    float distance = pow(initialVelocity, 2.0) * sin(2 * angleRads) / GRAVITY;  // calculates total horizontal distance
+    float height = pow(initialVelocity, 2.0) * pow(sin(angleRads), 2.0) / (2 * GRAVITY);    // calculates peak height
 
-    distance *= 1.1;
-    height *= 1.1;
+    distance *= 1.1; // have the graph window 10% larger than necessary
+    height *= 1.1;   // have the graph window 10% larger than necessary
 
 
     os << "plot [0:" << distance << "][0:" << height << "] "

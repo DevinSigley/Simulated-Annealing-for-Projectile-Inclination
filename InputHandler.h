@@ -16,8 +16,10 @@ public:
     Wall getWallDimensions();
 
 private:
-    const int MIN_TARGET_DISTANCE = 10;
-    const int MAX_TARGET_DISTANCE = 255;
+
+    const int MIN_TARGET_DISTANCE = 5;
+    const int MAX_TARGET_DISTANCE = 91;
+    const int MIN_WALL_DISTANCE = 1;
 };
 
 
