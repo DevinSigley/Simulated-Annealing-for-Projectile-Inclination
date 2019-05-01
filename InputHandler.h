@@ -5,11 +5,13 @@
 #ifndef AIFINAL_INPUTHANDLER_H
 #define AIFINAL_INPUTHANDLER_H
 
+#include "ProjCalculations.h"
+/*
 struct Wall {
     int distance;
     int height;
 };
-
+*/
 class InputHandler {
 public:
     float getTargetDistance();

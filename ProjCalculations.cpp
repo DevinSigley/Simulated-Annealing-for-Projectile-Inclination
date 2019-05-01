@@ -37,21 +37,21 @@ float timeOfFlight(float angleRads){
 
 // Returns true if projectile hits the wall.
 // Stores potential impact location in coords.
-bool checkWallImpact(float coords[2], float angleRads, float wallDistance, float wallHeight){
-    float height = heightAtDistance(wallDistance, angleRads);
-    coords[0] = wallDistance;
+bool checkWallImpact(float coords[2], float angleRads, Wall wall){
+    float height = heightAtDistance(wall.distance, angleRads);
+    coords[0] = wall.distance;
     coords[1] = height;
 
-    return (height <= wallHeight);
+    return (height <= wall.height);
 }
 
 // Computes how far the projectile is from the goal upon its first collision.
 // Projectile can either stop upon hitting a wall or hitting the ground.
-float distanceFromGoal(float angleRads, float wallDistance, float wallHeight, float targetDistance){
+float distanceFromGoal(float angleRads, Wall wall, float targetDistance){
     float impactCoords[2] = {-1.0, -1.0};
 
     // Hit the wall, so distance has a vertical component. Coords of impact recorded in impactCoords.
-    if (checkWallImpact(impactCoords, angleRads, wallDistance, wallHeight)){
+    if (checkWallImpact(impactCoords, angleRads, wall)){
         return (sqrt(pow(targetDistance - impactCoords[0], 2.0) + pow(impactCoords[1], 2.0)));
     }
 

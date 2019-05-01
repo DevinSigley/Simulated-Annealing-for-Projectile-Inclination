@@ -12,6 +12,12 @@ const float PI = 3.14159;
 const float GRAVITY = 9.80665; // m/s^2
 const float INITIAL_VELOCITY = 30.0; // m/s
 
+struct Wall {
+    float distance;
+    float height;
+};
+
+
 // Given an angle, returns the trajectory's peak height
 float peakHeight(float angleRads);
 
@@ -33,10 +39,10 @@ float timeOfFlight(float angleRads);
 
 // Returns true if projectile hits the wall.
 // Stores potential impact location in coords.
-bool checkWallImpact(float coords[2], float angleRads, float wallDistance, float wallHeight);
+bool checkWallImpact(float coords[2], float angleRads, Wall wall);
 
 // Computes how far the projectile is from the goal upon its first collision.
 // Projectile can either stop upon hitting a wall or hitting the ground.
-float distanceFromGoal(float angleRads, float wallDistance, float wallHeight, float targetDistance);
+float distanceFromGoal(float angleRads, Wall wall, float targetDistance);
 
 #endif //AIFINAL_PROJCALCULATIONS_H
