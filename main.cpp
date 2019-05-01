@@ -24,10 +24,6 @@ int main(int argc, char** argv) {
         if (strncmp(argv[1], "debug", 5) == 0) {DEBUG = true; std::cout << "DEBUG mode enabled.\n\n";}
     }
 
-    float angle = 45.0;
-    float angleRads = angle * PI / 180.0;
-    float initialVelocity = 20.0;
-
     InputHandler inputHandler;
     const float TARGET_DISTANCE = inputHandler.getTargetDistance();
     Wall userWall;

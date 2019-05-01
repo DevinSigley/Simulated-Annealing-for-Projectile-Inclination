@@ -22,8 +22,21 @@ float angleForDistance(float distance);
 // Given a height, returns the time at that position.
 float timeAtHeight(float height, float angleRads);
 
-float distanceAtTime(float time, float angleRads);
+// Given a time and angle, returns the horizontal distance of the projectile at that time
+float distanceAtTime(float time, float angleRads)
 
+// Given an x-coord, returns the corresponding y-coord
+float heightAtDistance(float distance, float angleRads)
+
+// Given an angle, returns total time of flight
 float timeOfFlight(float angleRads);
+
+// Returns true if projectile hits the wall.
+// Stores potential impact location in coords.
+bool checkWallImpact(float coords[2], float angleRads, float wallDistance, float wallHeight)
+
+// Computes how far the projectile is from the goal upon its first collision.
+// Projectile can either stop upon hitting a wall or hitting the ground.
+float distanceFromGoal(float angleRads, float wallDistance, float wallHeight, float targetDistance)
 
 #endif //AIFINAL_PROJCALCULATIONS_H
