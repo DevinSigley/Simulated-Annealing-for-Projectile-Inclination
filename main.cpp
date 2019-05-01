@@ -6,6 +6,7 @@
 #include "gnuplot-iostream.h"
 #include "ProjCalculations.h"
 #include "InputHandler.h"
+#include "Plotter.h"
 
 // compile with g++ -std=c++11 *.cpp -o main -lboost_iostreams -lboost_system -lboost_filesystem
 
@@ -30,6 +31,9 @@ int main(int argc, char** argv) {
     userWall = inputHandler.getWallDimensions(TARGET_DISTANCE);
     Gnuplot userPlot("tee user.gp | gnuplot -persist");
     userPlot  << createPoint(10, 20) << createTarget(TARGET_DISTANCE) << createWall(userWall) << createProjectileString(angleForDistance(TARGET_DISTANCE), TARGET_DISTANCE) << "\n";
+
+    Plotter plotter;
+    plotter.createPlot(PI/4, TARGET_DISTANCE, userWall);
 
     return 0;
 }
