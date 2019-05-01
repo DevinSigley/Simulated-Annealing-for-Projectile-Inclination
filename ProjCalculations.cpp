@@ -42,6 +42,7 @@ bool checkWallImpact(float coords[2], float angleRads, Wall wall){
     coords[0] = wall.distance;
     coords[1] = height;
 
+    if (height < 0) { return false; }
     return (height <= wall.height);
 }
 

@@ -18,8 +18,11 @@ void Plotter::createPlot(float angleRads, int targetDistance, Wall wall) {
     if (checkWallImpact(coords, angleRads, wall)){
         *plots.back() << createPoint(coords[0], coords[1]) << createTarget(targetDistance) << createWall(wall)
                       << createProjectileString(angleRads, targetDistance, wall) << "\n";
-        std::cout << "Impact : (" << coords[0] << ", " << coords[1] << ")\n";
-        std::cout << "Distance from target: " << distanceFromGoal(angleRads, wall, targetDistance) << std::endl;
+
+        if (DEBUG){
+            std::cout << "Impact : (" << coords[0] << ", " << coords[1] << ")\n";
+            std::cout << "Distance from target: " << distanceFromGoal(angleRads, wall, targetDistance) << std::endl;
+        }
     }
     else {
         *plots.back() << createTarget(targetDistance) << createWall(wall)
@@ -60,16 +63,11 @@ std::string Plotter::createPoint(float x, float y){
 // Returns a string which commands gnuplot to draw a projectile curve
 std::string Plotter::createProjectileString(float angleRads, int targetDistance, Wall wall){
     std::ostringstream os;
-    float distance = pow(INITIAL_VELOCITY, 2.0) * sin(2 * angleRads) / GRAVITY;  // calculates total horizontal distance
-    float height = pow(INITIAL_VELOCITY, 2.0) * pow(sin(angleRads), 2.0) / (2 * GRAVITY);    // calculates peak height
-
-//    if (distance <= 20){ distance = 20; }
-//    distance *= 1.1; // have the graph window 10% larger than necessary
-//    height *= 1.1;   // have the graph window 10% larger than necessary
+    float height = 50;
+    float distance;
 
     if (targetDistance <= 25) {distance = 30;}
     else {distance = 100;}
-    height = 50;
 
     float coords[2];
     if (checkWallImpact(coords, angleRads, wall)){

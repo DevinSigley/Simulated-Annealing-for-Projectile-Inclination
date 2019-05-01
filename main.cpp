@@ -33,7 +33,11 @@ int main(int argc, char** argv) {
 //    userPlot  << createPoint(10, 20) << createTarget(TARGET_DISTANCE) << createWall(userWall) << createProjectileString(angleForDistance(TARGET_DISTANCE), TARGET_DISTANCE) << "\n";
 
     Plotter plotter;
-    plotter.createPlot(PI/4, TARGET_DISTANCE, userWall);
+    for (int i = 1; i < 6; i++){
+        plotter.createPlot(PI/16 * i, TARGET_DISTANCE, userWall);
+    }
+
+    //plotter.createPlot(PI/4, TARGET_DISTANCE, userWall);
 
     return 0;
 }
