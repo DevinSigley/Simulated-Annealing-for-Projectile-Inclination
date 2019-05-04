@@ -6,17 +6,28 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <random>
 #include "Plotter.h"
 //#include "ProjCalculations.h"
 
 Ai::Ai(float targetDistance, Wall wall) {
     this->targetDistance = targetDistance;
     this->wall = wall;
+
+    if (targetDistance <= 8.0) {ERROR_THRESHOLD = 1.0; neighborhood_change = 0.99;} // ERROR_THRESHOLD = 1.8
+    else if (targetDistance < 20.0) { ERROR_THRESHOLD = 1.0; } // E_T = 1.6
+    else { ERROR_THRESHOLD = 0.5; neighborhood = PI/4.0;} // E_T = 1.1
 }
 
 float Ai::findAngle() {
     srand(time(NULL)); // seeding random number generator
     currentGuess.angle = (rand() % 45 + 45) * PI / 180.0; // generate angle between 45 and 89 degrees, convert to radians
+
+    std::random_device randDevice;
+    std::mt19937 gen(randDevice());
+    std::uniform_real_distribution<float> randDis(0.0, PI/4.0);
+    currentGuess.angle = PI/4.0 + randDis(gen);
+
 
     currentGuess.distanceError = distanceFromGoal(currentGuess.angle, wall, targetDistance); // obtain initial error
     Plotter plotter;
@@ -26,12 +37,26 @@ float Ai::findAngle() {
         // If "close enough" to the target, return that angle
         if (currentGuess.distanceError <= ERROR_THRESHOLD){
             if (DEBUG) {std::cout << "currentGuess angle: " << currentGuess.angle << " deg: "<< currentGuess.angle * 180.0/PI << "\terror: " << currentGuess.distanceError << std::endl;}
+            std::cout << "Decision reached in " << iteration+1 << " iterations.\n";
             return currentGuess.angle;
         }
 
-        // newGuess.angle is equal to currentGuess.angle +/- NEIGHBORHOOD degrees
-        if (rand() % 2 == 1) { newGuess.angle = currentGuess.angle + (rand() % NEIGHBORHOOD) * PI / 180.0; }
-        else { newGuess.angle = currentGuess.angle - (rand() % NEIGHBORHOOD) * PI / 180.0; }
+        float increment = randDis(gen);
+        if (increment > neighborhood) {increment = neighborhood;}
+
+        // newGuess.angle is equal to currentGuess.angle +/- neighborhood degrees
+        if (rand() % 2 == 1) {
+            //newGuess.angle = currentGuess.angle + (rand() % (int)neighborhood) * PI / 180.0;
+            //if (newGuess.angle*180.0/PI >= 90.0) {newGuess.angle = 89.0*PI/180.0;}
+            newGuess.angle = currentGuess.angle + increment;
+            if (newGuess.angle >= PI/2.0) {newGuess.angle = PI/2.0 - 0.005;}
+        }
+        else {
+            //newGuess.angle = currentGuess.angle - (rand() % (int)neighborhood) * PI / 180.0;
+            //if (newGuess.angle*180.0/PI < 45.0) {newGuess.angle = 45.0*PI/180.0;}
+            newGuess.angle = currentGuess.angle - increment;
+            if (newGuess.angle <= PI/4.0) {newGuess.angle = PI/4.0;}
+        }
 
         newGuess.distanceError = distanceFromGoal(newGuess.angle, wall, targetDistance);
         errorDifference = newGuess.distanceError - currentGuess.distanceError;
@@ -41,6 +66,7 @@ float Ai::findAngle() {
             std::cout << "iteration: " << iteration << std::endl;
             std::cout << "currentGuess angle: " << currentGuess.angle << " deg: "<< currentGuess.angle * 180.0/PI << "\terror: " << currentGuess.distanceError << std::endl;
             std::cout << "newGuess angle: " << newGuess.angle << " deg: "<< newGuess.angle * 180.0/PI << "\terror: " << newGuess.distanceError << std::endl;
+            std::cout << "neighborhood: " << neighborhood <<  "\tdegrees: " << neighborhood*180.0/PI << std::endl;
             std::cout << "temperature: " << temperature << "\n\n";
         }
 
@@ -49,7 +75,9 @@ float Ai::findAngle() {
         }
 
         temperature *= TEMP_CHANGE;
+        neighborhood *= neighborhood_change;
     }
 
+    std::cout << "Decision timed out with " << MAX_ITERATIONS << " iterations.\n";
     return currentGuess.angle;
 }

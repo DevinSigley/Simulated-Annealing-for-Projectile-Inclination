@@ -22,12 +22,13 @@ private:
     Guess newGuess;
     float errorDifference;
     float temperature = 1.0;
+    float neighborhood = PI/2.0; // newGuess must be within NEIGHBORHOOD degrees of currentGuess
     float targetDistance;
     Wall wall;
     const int MAX_ITERATIONS = 100; // max # of guesses
-    const float ERROR_THRESHOLD = 0.75; // how close we must get to the center of the target
+    float ERROR_THRESHOLD; // how close we must get to the center of the target
     const float TEMP_CHANGE = 0.95;
-    const int NEIGHBORHOOD = 20; // newGuess must be within NEIGHBORHOOD degrees of currentGuess
+    float neighborhood_change = 0.95;
 
 };
 

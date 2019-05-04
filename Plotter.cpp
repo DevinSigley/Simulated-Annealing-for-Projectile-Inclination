@@ -8,7 +8,7 @@
 
 void Plotter::createPlot(float angleRads, int targetDistance, Wall wall) {
     std::ostringstream os;
-    os << "tee " << plots.size() << ".gp | gnuplot -persist";
+    os << "tee plots/" << plots.size() << ".gp | gnuplot -persist";
     std::string plotDesc = os.str();
     Gnuplot plot(plotDesc);
     Gnuplot* gnuptr = &plot;
@@ -48,7 +48,7 @@ std::string Plotter::createWall(Wall wall){
 
 
 std::string Plotter::createTarget(int distance){
-    return createLineString(distance-1.5, 0, distance+1.5, 0, "red", 4);
+    return createLineString(distance-1.75, 0, distance+1.75, 0, "red", 4);
 }
 
 
