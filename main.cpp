@@ -7,6 +7,7 @@
 #include "ProjCalculations.h"
 #include "InputHandler.h"
 #include "Plotter.h"
+#include "Ai.h"
 
 // compile with g++ -std=c++11 *.cpp -o main -lboost_iostreams -lboost_system -lboost_filesystem
 
@@ -32,11 +33,14 @@ int main(int argc, char** argv) {
 //    Gnuplot userPlot("tee user.gp | gnuplot -persist");
 //    userPlot  << createPoint(10, 20) << createTarget(TARGET_DISTANCE) << createWall(userWall) << createProjectileString(angleForDistance(TARGET_DISTANCE), TARGET_DISTANCE) << "\n";
 
-    Plotter plotter;
+/*    Plotter plotter;
     for (int i = 1; i < 6; i++){
         plotter.createPlot(PI/16 * i, TARGET_DISTANCE, userWall);
     }
-
+*/
+    Ai ai(TARGET_DISTANCE, userWall);
+    float finalAngle = ai.findAngle();
+    if (DEBUG){std::cout << "finalAngle = " << finalAngle*180.0/PI << std::endl;}
     //plotter.createPlot(PI/4, TARGET_DISTANCE, userWall);
 
     return 0;

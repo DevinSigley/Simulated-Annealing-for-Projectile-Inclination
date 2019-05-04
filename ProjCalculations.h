@@ -9,6 +9,7 @@
 
 extern bool DEBUG; // enable via command-line argument to have various output
 const float PI = 3.14159;
+const float EULER = 2.71828;
 const float GRAVITY = 9.80665; // m/s^2
 const float INITIAL_VELOCITY = 30.0; // m/s
 

@@ -70,6 +70,7 @@ std::string Plotter::createProjectileString(float angleRads, int targetDistance,
     else {distance = 100;}
 
     float coords[2];
+    // Wall impact, so plot the projectile piecewise until point of impact & plot point of impact
     if (checkWallImpact(coords, angleRads, wall)){
         os << "plot [0:" << distance << "][0:" << height << "] "
            << "0 <= x && x <= " << coords[0] << " ? "
