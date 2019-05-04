@@ -11,13 +11,13 @@
 // Distance is within [MIN_TARGET_DISTANCE, MAX_TARGET_DISTANCE].
 float InputHandler::getTargetDistance() {
     int distance;
-    std::cout << "Enter the distance (" << MIN_TARGET_DISTANCE << " - " << MAX_TARGET_DISTANCE << ") for the target: ";
+    std::cout << "Enter the distance (" << MIN_TARGET_DISTANCE << " - " << MAX_TARGET_DISTANCE << " meters) for the target: ";
     std::cin >> distance;
 
     while (std::cin.fail() || distance < MIN_TARGET_DISTANCE || distance > MAX_TARGET_DISTANCE){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Enter the distance (" << MIN_TARGET_DISTANCE << " - " << MAX_TARGET_DISTANCE << ") for the target: ";
+        std::cout << "Enter the distance (" << MIN_TARGET_DISTANCE << " - " << MAX_TARGET_DISTANCE << " meters) for the target: ";
         std::cin >> distance;
     }
 
@@ -34,12 +34,12 @@ Wall InputHandler::getWallDimensions(const int TARGET_DISTANCE) {
     Wall wall;
 
     // Get user input for wall height
-    std::cout << "Enter the height (up to " << MAX_WALL_HEIGHT << ") for the wall: ";
+    std::cout << "Enter the height (up to " << MAX_WALL_HEIGHT << " meters) for the wall: ";
     std::cin >> wall.height;
     while (std::cin.fail() || wall.height < 1 || wall.height > MAX_WALL_HEIGHT){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Enter the height (up to " << (int)MAX_WALL_HEIGHT << ") for the wall: ";
+        std::cout << "Enter the height (up to " << (int)MAX_WALL_HEIGHT << " meters) for the wall: ";
         std::cin >> wall.height;
     }
 
@@ -65,13 +65,13 @@ Wall InputHandler::getWallDimensions(const int TARGET_DISTANCE) {
 
     // Get user input for wall distance
     std::cout << "Enter the distance (between " << (int)(DISTANCE_AT_HEIGHT + 1)
-              << " and " << (int)DISTANCE_AT_HEIGHT_2 << ") for the wall: ";
+              << " and " << (int)DISTANCE_AT_HEIGHT_2 << " meters) for the wall: ";
     std::cin >> wall.distance;
     while (std::cin.fail() || wall.distance < (int)(DISTANCE_AT_HEIGHT + 1) || wall.distance > (int)DISTANCE_AT_HEIGHT_2){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Enter the distance (between " << (int)(DISTANCE_AT_HEIGHT + 1)
-                 << " and " << (int)DISTANCE_AT_HEIGHT_2 << ") for the wall: ";
+                 << " and " << (int)DISTANCE_AT_HEIGHT_2 << "meters) for the wall: ";
         std::cin >> wall.distance;
     }
 

@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
 */
     Ai ai(TARGET_DISTANCE, userWall);
     float finalAngle = ai.findAngle();
-    if (DEBUG){std::cout << "finalAngle = " << finalAngle*180.0/PI << std::endl;}
+    std::cout << "The final selected angle was " << finalAngle*180.0/PI << " degrees.\n";
     //plotter.createPlot(PI/4, TARGET_DISTANCE, userWall);
     Plotter plotter;
     plotter.createPlot(finalAngle, TARGET_DISTANCE, userWall);
