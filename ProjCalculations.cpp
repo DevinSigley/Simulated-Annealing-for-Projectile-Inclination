@@ -58,7 +58,7 @@ float distanceFromGoal(float angleRads, Wall wall, float targetDistance){
 
     // Didn't hit the wall, so distance is just horizontal.
     else {
-        return targetDistance - distanceAtTime(timeOfFlight(angleRads), angleRads);
+        return abs(targetDistance - distanceAtTime(timeOfFlight(angleRads), angleRads));
     }
 }
 

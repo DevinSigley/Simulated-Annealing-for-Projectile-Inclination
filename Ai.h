@@ -24,9 +24,10 @@ private:
     float temperature = 1.0;
     float targetDistance;
     Wall wall;
-    const int MAX_ITERATIONS = 50; // max # of times for comparisons
+    const int MAX_ITERATIONS = 100; // max # of guesses
     const float ERROR_THRESHOLD = 0.75; // how close we must get to the center of the target
-    const float TEMP_CHANGE = 0.9;
+    const float TEMP_CHANGE = 0.95;
+    const int NEIGHBORHOOD = 20; // newGuess must be within NEIGHBORHOOD degrees of currentGuess
 
 };
 

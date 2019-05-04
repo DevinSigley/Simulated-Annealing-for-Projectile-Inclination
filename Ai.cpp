@@ -16,7 +16,7 @@ Ai::Ai(float targetDistance, Wall wall) {
 
 float Ai::findAngle() {
     srand(time(NULL)); // seeding random number generator
-    currentGuess.angle = (rand() % 45 + 45) * PI / 180.0; // generate angle (in degrees) between 45 and 89, convert to radians
+    currentGuess.angle = (rand() % 45 + 45) * PI / 180.0; // generate angle between 45 and 89 degrees, convert to radians
 
     currentGuess.distanceError = distanceFromGoal(currentGuess.angle, wall, targetDistance); // obtain initial error
     Plotter plotter;
@@ -29,11 +29,13 @@ float Ai::findAngle() {
             return currentGuess.angle;
         }
 
-        newGuess.angle = (rand() % 45 + 45) * PI / 180.0; // generate random angle
+        // newGuess.angle is equal to currentGuess.angle +/- NEIGHBORHOOD degrees
+        if (rand() % 2 == 1) { newGuess.angle = currentGuess.angle + (rand() % NEIGHBORHOOD) * PI / 180.0; }
+        else { newGuess.angle = currentGuess.angle - (rand() % NEIGHBORHOOD) * PI / 180.0; }
+
         newGuess.distanceError = distanceFromGoal(newGuess.angle, wall, targetDistance);
         errorDifference = newGuess.distanceError - currentGuess.distanceError;
         plotter.createPlot(newGuess.angle, targetDistance, wall);
-
 
         if (DEBUG){
             std::cout << "iteration: " << iteration << std::endl;

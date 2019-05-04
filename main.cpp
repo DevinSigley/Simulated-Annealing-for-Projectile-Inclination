@@ -42,6 +42,8 @@ int main(int argc, char** argv) {
     float finalAngle = ai.findAngle();
     if (DEBUG){std::cout << "finalAngle = " << finalAngle*180.0/PI << std::endl;}
     //plotter.createPlot(PI/4, TARGET_DISTANCE, userWall);
+    Plotter plotter;
+    plotter.createPlot(finalAngle, TARGET_DISTANCE, userWall);
 
     return 0;
 }
