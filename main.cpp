@@ -1,3 +1,12 @@
+/*
+ * Final Project for CSCI 5837 / Spring 2019
+ * by: Devin Sigley
+ * Uses simulated annealing to hit a target defined by the user.
+ *
+ * Requires Gnuplot and Boost
+ * compile with g++ -std=c++11 *.cpp -o main -lboost_iostreams -lboost_system -lboost_filesystem
+ */
+
 #include <vector>
 #include <utility>
 #include <math.h>
@@ -8,8 +17,6 @@
 #include "InputHandler.h"
 #include "Plotter.h"
 #include "Ai.h"
-
-// compile with g++ -std=c++11 *.cpp -o main -lboost_iostreams -lboost_system -lboost_filesystem
 
 
 bool DEBUG = false;
