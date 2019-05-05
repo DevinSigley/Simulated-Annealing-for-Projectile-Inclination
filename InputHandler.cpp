@@ -71,7 +71,7 @@ Wall InputHandler::getWallDimensions(const int TARGET_DISTANCE) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Enter the distance (between " << (int)(DISTANCE_AT_HEIGHT + 1)
-                 << " and " << (int)DISTANCE_AT_HEIGHT_2 << "meters) for the wall: ";
+                 << " and " << (int)DISTANCE_AT_HEIGHT_2 << " meters) for the wall: ";
         std::cin >> wall.distance;
     }
 

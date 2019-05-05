@@ -14,6 +14,10 @@ void Plotter::createPlot(float angleRads, int targetDistance, Wall wall) {
     Gnuplot* gnuptr = &plot;
     plots.push_back(gnuptr);
 
+    if (DEBUG) {
+        std::cout << "Plotting " << plots.size()-1 << ".gp. AngleRads: " << angleRads << " AngleDegs: " << angleRads*180.0/PI << std::endl;
+    }
+
     float coords[2];
     if (checkWallImpact(coords, angleRads, wall)){
         *plots.back() << createPoint(coords[0], coords[1]) << createTarget(targetDistance) << createWall(wall)

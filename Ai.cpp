@@ -14,9 +14,15 @@ Ai::Ai(float targetDistance, Wall wall) {
     this->targetDistance = targetDistance;
     this->wall = wall;
 
-    if (targetDistance <= 8.0) {ERROR_THRESHOLD = 1.0; neighborhood_change = 0.99;} // ERROR_THRESHOLD = 1.8
-    else if (targetDistance < 20.0) { ERROR_THRESHOLD = 1.0; } // E_T = 1.6
-    else { ERROR_THRESHOLD = 0.5; neighborhood = PI/4.0;} // E_T = 1.1
+    if (targetDistance < 20.0) {
+        neighborhood = PI/2.0;
+        neighborhood_change = 0.95 + (wall.height/targetDistance)*0.005;
+        if (neighborhood_change > 0.99) {neighborhood_change = 0.99;}
+    }
+    else if (targetDistance < 40.0) { neighborhood_change = 0.95 + (wall.height/targetDistance)*0.008;}
+    else { neighborhood_change = 0.95;}
+
+    if(DEBUG) {std::cout << "neighborhood_change:" << neighborhood_change << std::endl; std::cout << "factor: " << wall.height/targetDistance << std::endl;}
 }
 
 float Ai::findAngle() {
@@ -37,7 +43,7 @@ float Ai::findAngle() {
         // If "close enough" to the target, return that angle
         if (currentGuess.distanceError <= ERROR_THRESHOLD){
             if (DEBUG) {std::cout << "currentGuess angle: " << currentGuess.angle << " deg: "<< currentGuess.angle * 180.0/PI << "\terror: " << currentGuess.distanceError << std::endl;}
-            std::cout << "Decision reached in " << iteration+1 << " iterations.\n";
+            std::cout << "Decision reached in " << iteration << " iterations.\n";
             return currentGuess.angle;
         }
 
@@ -49,7 +55,7 @@ float Ai::findAngle() {
             //newGuess.angle = currentGuess.angle + (rand() % (int)neighborhood) * PI / 180.0;
             //if (newGuess.angle*180.0/PI >= 90.0) {newGuess.angle = 89.0*PI/180.0;}
             newGuess.angle = currentGuess.angle + increment;
-            if (newGuess.angle >= PI/2.0) {newGuess.angle = PI/2.0 - 0.005;}
+            if (newGuess.angle >= PI/2.0) {newGuess.angle = PI/2.0 - 0.01;}
         }
         else {
             //newGuess.angle = currentGuess.angle - (rand() % (int)neighborhood) * PI / 180.0;
